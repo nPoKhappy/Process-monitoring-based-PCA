@@ -12,8 +12,6 @@ plt.rcParams['font.sans-serif']    = ['Microsoft JhengHei']
 plt.rcParams['axes.unicode_minus'] = False
 np.set_printoptions(precision=3,suppress=True)
 
-#before use the class,you have to normalize the data first using standardscaler module import from sklearn.preprocesing
-
 
 class PCA():
     #construction func
@@ -101,10 +99,16 @@ class PCA():
             plt.ylim([0,T2lim_tr*5])
             plt.grid()
             plt.title("T訓練")
+            plt.xlabel("Samples")
+            plt.ylabel("$Hotelling T^2$")
             plt.show()
         
         
-        
+        """
+        If the components retained in the PCA model is less than three, it suggest there is no residue.
+        Since data not even need to reconstruct.
+        """
+
         if lv < 3:
             #compute q value
             #[num_sample,num_variables]     #dot([num_samples,projected_numbers],[num_variables,num_projected_numbers]^T)
@@ -125,8 +129,8 @@ class PCA():
             
             Qlim = theta1*((term1+1+term2)**(1/h0))
 
-            if h0<0.0:
-                h0=0.0001
+            if h0 < 0.0:
+                h0 = 0.0001
                 print("Warning:distribution unused eigenvalues indicates")
                 print("        that you should probably retain more PCs in the model.")
         
@@ -141,6 +145,8 @@ class PCA():
             plt.grid()
             plt.title("Q訓練")
             plt.ylim([0, 5*Qlim])
+            plt.xlabel("Samples")
+            plt.ylabel("$SPE$")
             plt.show()
         
         
